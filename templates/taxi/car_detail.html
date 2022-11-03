@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    {{ car.model }}
+    <a href="{% url 'taxi:car-delete' pk=car.id %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+
+    <a href="{% url 'taxi:car-update' pk=car.id %}" class="btn btn-secondary link-to-page">
+      Update
+    </a>
+  </h1>
+  <p><strong>Manufacturer: </strong>{{ car.manufacturer.name }} ({{ car.manufacturer.country }})</p>
+
+  <div class="ml-3">
+  <h3>
+    Drivers
+
+    {% if car in user.cars.all %}
+      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-danger link-to-page">
+        Delete me from this car
+      </a>
+    {% else %}
+      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-success link-to-page">
+        Assign me to this car
+      </a>
+    {% endif %}
+  </h3>
+
+    {% for driver in car.drivers.all %}
+      <hr>
+        <p><strong>Username: </strong>
+          <a href="{{ driver.get_absolute_url }}">{{ driver.username }} {% if user == driver %} (Me){% endif %}</a>
+        </p>
+        <p><strong>Full name: </strong>{{ driver.first_name }} {{ driver.last_name }}</p>
+        <p><strong>License number: </strong>{{ driver.license_number }}</p>
+
+      {% empty %}
+      <p>No drivers!</p>
+
+    {% endfor %}
+  </div>
+{% endblock %}
