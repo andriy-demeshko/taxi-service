@@ -1,4 +1,4 @@
-# Taxi Service Project
+# CabManager
 
 Django project for managing cars and drivers in Taxi Service
 
